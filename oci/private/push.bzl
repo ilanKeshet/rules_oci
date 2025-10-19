@@ -250,9 +250,12 @@ def _impl(ctx):
     runfiles = runfiles.merge(jq.default.default_runfiles)
     runfiles = runfiles.merge(ctx.attr.image[DefaultInfo].default_runfiles)
     runfiles = runfiles.merge(crane.default.default_runfiles)
-    runfiles = runfiles.merge(ctx.attr.runfiles.files.to_list())
 
-    return DefaultInfo(executable = util.maybe_wrap_launcher_for_windows(ctx, executable), runfiles = runfiles)
+    return DefaultInfo(
+        executable = util.maybe_wrap_launcher_for_windows(ctx, executable),
+        runfiles = runfiles,
+        files = depset(ctx.attr.runfiles.files.to_list()),
+    )
 
 oci_push_lib = struct(
     implementation = _impl,
