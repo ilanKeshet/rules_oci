@@ -195,7 +195,7 @@ _attrs = {
         default = "push.sh.tpl",
         allow_single_file = True,
     ),
-    "_runfiles": attr.label(default = "@bazel_tools//tools/bash/runfiles"),
+    "runfiles": attr.label(default = "@bazel_tools//tools/bash/runfiles"),
     "_windows_constraint": attr.label(default = "@platforms//os:windows"),
     "_jq": attr.label(
         cfg = _transition_to_target,
@@ -250,7 +250,7 @@ def _impl(ctx):
     runfiles = runfiles.merge(jq.default.default_runfiles)
     runfiles = runfiles.merge(ctx.attr.image[DefaultInfo].default_runfiles)
     runfiles = runfiles.merge(crane.default.default_runfiles)
-    runfiles = runfiles.merge(ctx.attr._runfiles.default_runfiles)
+    runfiles = runfiles.merge(ctx.attr.runfiles.default_runfiles)
 
     return DefaultInfo(executable = util.maybe_wrap_launcher_for_windows(ctx, executable), runfiles = runfiles)
 
