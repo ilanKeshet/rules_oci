@@ -223,7 +223,10 @@ def _impl(ctx):
     executable = ctx.actions.declare_file("push_%s.sh" % ctx.label.name)
     files = [ctx.file.image]
     substitutions = {
-        "{{BASH_RLOCATION_FUNCTION}}": BASH_RLOCATION_FUNCTION,
+        "{{BASH_RLOCATION_FUNCTION}}": BASH_RLOCATION_FUNCTION.replace(
+            "bazel_tools/tools/bash/runfiles/runfiles.bash",
+            "armis/util/build_tools/local_runfiles_bash.bash",
+        ),
         "{{crane_path}}": to_rlocation_path(ctx, crane.crane_info.binary),
         "{{jq_path}}": to_rlocation_path(ctx, jq.jqinfo.bin),
         "{{image_dir}}": to_rlocation_path(ctx, ctx.file.image),
